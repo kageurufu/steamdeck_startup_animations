@@ -7,6 +7,10 @@ mkdir -p "$HOME/.config/systemd/user"
 # Clone the startup animations repository
 if [[ ! -d "$HOME/homebrew/startup_animations" ]]; then
   git clone https://github.com/kageurufu/steamdeck_startup_animations "$HOME/homebrew/startup_animations"
+  cd "$HOME/homebrew/startup_animations"
+else
+  cd "$HOME/homebrew/startup_animations"
+  git pull
 fi
 
 # Install the service file
