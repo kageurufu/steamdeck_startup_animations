@@ -1,0 +1,11 @@
+[Unit]
+Description=Randomize deck_startup.webm after boot
+
+[Install]
+WantedBy=default.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=/home/deck/homebrew/startup_animations
+# ExecStartPre=/bin/sleep 30
+ExecStart=/home/deck/homebrew/startup_animations/randomize_deck_startup.sh
