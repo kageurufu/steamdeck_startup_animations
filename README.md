@@ -18,25 +18,26 @@ A collection of steamdeck startup animations, plus a script to randomize your st
 
 # Installation
 
+## Root install (includes patching for fullscreen videos)
 ```sh
-curl -o - https://raw.githubusercontent.com/kageurufu/steamdeck_startup_animations/main/install.sh | bash -
+curl -o - https://raw.githubusercontent.com/kageurufu/steamdeck_startup_animations/main/install.sh | bash - install
 ```
 
-If you're (justifiably) not a fan of `curl | bash`, you can run this:
+## Rootless install (old, not recommended)
+```sh
+curl -o - https://raw.githubusercontent.com/kageurufu/steamdeck_startup_animations/main/install.sh | bash - install-rootless
+```
+
+# Disable, but keep the installation
 
 ```sh
-mkdir -p "$HOME/homebrew"
-mkdir -p "$HOME/.config/systemd/user"
-git clone https://github.com/kageurufu/steamdeck_startup_animations "$HOME/homebrew/startup_animations"
-ln -sf "$HOME/homebrew/startup_animations/randomize_deck_startup.service" "$HOME/.config/systemd/user/randomize_deck_startup.service"
-systemctl --user daemon-reload
-systemctl --user enable --now randomize_deck_startup.service
+bash $HOME/homebrew/startup_animations/install.sh disable
 ```
 
 # Uninstallation
 
 ```sh
-bash $HOME/homebrew/startup_animations/uninstall.sh
+bash $HOME/homebrew/startup_animations/install.sh uninstall
 ```
 
 # Making an animation (somewhat advanced)
