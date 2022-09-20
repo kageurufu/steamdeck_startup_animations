@@ -21,7 +21,7 @@ msg2() {
 }
 
 DECK_STARTUP_FILE="/home/deck/.steam/steam/steamui/movies/deck_startup.webm"
-DECK_LIBRARY_CSS_FILE="/home/.local/share/Steam/steamui/css/library.css"
+DECK_LIBRARY_CSS_FILE="/home/deck/.steam/steam/steamui/css/library.css"
 DECK_STARTUP_FILE_SIZE=1840847
 DECK_STARTUP_STOCK_MD5="4ee82f478313cf74010fc22501b40729"
 
