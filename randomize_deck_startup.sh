@@ -21,6 +21,7 @@ msg2() {
 }
 
 DECK_STARTUP_FILE="/home/deck/.steam/steam/steamui/movies/deck_startup.webm"
+DECK_LIBRARY_CSS_FILE="/home/.local/share/Steam/steamui/css/library.css"
 DECK_STARTUP_FILE_SIZE=1840847
 DECK_STARTUP_STOCK_MD5="4ee82f478313cf74010fc22501b40729"
 
@@ -45,7 +46,15 @@ random_animation() {
   echo "${animations[$RANDOM % ${#animations[@]}]}"
 }
 
+replace_css_video() {
+  # NEW_CSS MUST be exactly the same length as OLD_CSS
+  OLD_CSS="video{flex-grow:0;width:300px;height:300px;z-index:10}"
+  NEW_CSS="video{flex-grow:1;width:100%;height:100%;z-index:10}  "
+  sed -i.bak -e "s/$OLD_CSS/$NEW_CSS/" $DECK_LIBRARY_CSS_FILE
+}
+
 check_backup
+replace_css_video
 animation="$(random_animation)"
 msg "Using $animation"
 ln -f "$animation" "$DECK_STARTUP_FILE"
