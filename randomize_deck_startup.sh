@@ -39,7 +39,7 @@ check_backup() {
 }
 
 list_animations() {
-  find $DECK_STARTUP_SOURCE_FILE_LOCATION -maxdepth 1-type f -size "${DECK_STARTUP_FILE_SIZE}c" -iname '*.webm' -print0
+  find $DECK_STARTUP_SOURCE_FILE_LOCATION -maxdepth 1 -type f -size "${DECK_STARTUP_FILE_SIZE}c" -iname '*.webm' -print0
 }
 
 random_animation() {
