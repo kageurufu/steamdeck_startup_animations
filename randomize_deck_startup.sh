@@ -24,6 +24,7 @@ DECK_STARTUP_FILE="/home/deck/.steam/steam/steamui/movies/deck_startup.webm"
 DECK_LIBRARY_CSS_FILE="/home/deck/.steam/steam/steamui/css/library.css"
 DECK_STARTUP_FILE_SIZE=1840847
 DECK_STARTUP_STOCK_MD5="4ee82f478313cf74010fc22501b40729"
+DECK_STARTUP_SOURCE_FILE_LOCATION="./deck_startup"
 
 check_backup() {
   if [[ ! -f "$DECK_STARTUP_FILE.backup" ]]; then
@@ -38,7 +39,7 @@ check_backup() {
 }
 
 list_animations() {
-  find . -type f -size "${DECK_STARTUP_FILE_SIZE}c" -iname '*.webm' -print0
+  find $DECK_STARTUP_SOURCE_FILE_LOCATION -maxdepth 1-type f -size "${DECK_STARTUP_FILE_SIZE}c" -iname '*.webm' -print0
 }
 
 random_animation() {
@@ -53,7 +54,12 @@ replace_css_video() {
   sed -i.bak -e "s/$OLD_CSS/$NEW_CSS/" $DECK_LIBRARY_CSS_FILE
 }
 
+truncate_files() {
+  find $DECK_STARTUP_SOURCE_FILE_LOCATION -maxdepth 1 -type f -exec truncate -s ${DECK_STARTUP_FILE_SIZE} {} \; -iname '*.webm'
+}
+
 check_backup
+truncate_files
 replace_css_video
 animation="$(random_animation)"
 msg "Using $animation"

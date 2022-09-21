@@ -39,6 +39,15 @@ systemctl --user enable --now randomize_deck_startup.service
 bash $HOME/homebrew/startup_animations/uninstall.sh
 ```
 
+# Using an existing animation
+
+Ensure the animation is in .webm format,
+Place it in the deck_startup location, 
+Next load randomize_deck_startup should auto format your file with "truncate -s 1840847" 
+ensureing it is the correct filesize for play
+
+(These animations may be slightly inflated and cost storage space as each animation needs to be about 1.8mb to cause the steamdeck to boot with the custom animation)
+
 # Making an animation (somewhat advanced)
 
 I used youtube-dl to grab the best video and audio tracks from youtube, and then ffmpeg to merge them, resizing down to fit the Deck's 1280x800 screen. Then I use `truncate` to make the file the right size. 

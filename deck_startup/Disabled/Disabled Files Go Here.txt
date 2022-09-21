@@ -1,0 +1,1 @@
+Move any files you dont want to see on startup into this location to disabled them
