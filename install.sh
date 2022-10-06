@@ -1,9 +1,12 @@
 #!/usr/bin/env bash
 
+OVERRIDES_DIR="$HOME/.steam/root/config/uioverrides"
+
 # Create required directories
 echo ":: Creating required directories"
 mkdir -p "$HOME/homebrew"
 mkdir -p "$HOME/.config/systemd/user"
+mkdir -p "$OVERRIDES_DIR"
 
 # Clone the startup animations repository
 if [[ ! -d "$HOME/homebrew/startup_animations" ]]; then
@@ -22,3 +25,4 @@ ln -sf "$HOME/homebrew/startup_animations/randomize_deck_startup.service" "$HOME
 systemctl --user daemon-reload
 systemctl --user enable --now randomize_deck_startup.service
 
+cd "$OVERRIDES_DIR" && ln -sf ../../../../../homebrew/startup_animations/deck_startup movies

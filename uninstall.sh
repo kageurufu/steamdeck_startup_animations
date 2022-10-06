@@ -6,10 +6,11 @@ if [[ -e "$HOME/.config/systemd/user/randomize_deck_startup.service" ]]; then
   rm "$HOME/.config/systemd/user/randomize_deck_startup.service"
 fi
 
-if [[ -f "$HOME/.steam/steam/steamui/movies/deck_startup.webm.backup" ]]; then
-  echo ":: Restoring deck_startup.webm.backup"
-  rm "$HOME/.steam/steam/steamui/movies/deck_startup.webm"
-  mv "$HOME/.steam/steam/steamui/movies/deck_startup.webm.backup" "$HOME/.steam/steam/steamui/movies/deck_startup.webm"
+if [[ -d "$HOME/.steam/root/config/uioverrides" ]]; then
+  if [[ -L "$HOME/.steam/root/config/uioverrides/movies" ]]; then
+    echo ":: Removing link to replacement animations directory"
+    rm "$HOME/.steam/root/config/uioverrides/movies"
+  fi
 fi
 
 if [[ -e "$HOME/homebrew/startup_animations" ]]; then
