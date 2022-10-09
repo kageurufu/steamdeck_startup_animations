@@ -13,33 +13,34 @@ Cyan='\033[0;36m'         # Cyan
 White='\033[0;37m'        # White
 
 msg() {
-  echo -e ":: ${@}$Color_Off"
+  echo -e ":: ${*}$Color_Off"
 }
 
 msg2() {
-  echo -e "$Red!!$Color_Off ${@}$Color_Off"
+  echo -e "$Red!!$Color_Off ${*}$Color_Off"
 }
 
-DECK_STARTUP_FILE="/home/deck/.steam/steam/steamui/movies/deck_startup.webm"
-DECK_LIBRARY_CSS_FILE="/home/deck/.steam/steam/steamui/css/library.css"
-DECK_LIBRARY_CSS_FILE_SIZE=$(stat -c%s $DECK_LIBRARY_CSS_FILE)
-DECK_STARTUP_FILE_SIZE=1840847
-DECK_STARTUP_STOCK_MD5="4ee82f478313cf74010fc22501b40729"
+DECK_UIOVERRIDES="/home/deck/.steam/root/config/uioverrides"
+DECK_UIOVERRIDES_MOVIES="${DECK_UIOVERRIDES}/movies"
+DECK_UIOVERRIDES_STARTUP="${DECK_UIOVERRIDES_MOVIES}/deck_startup.webm"
 
-check_backup() {
-  if [[ ! -f "$DECK_STARTUP_FILE.backup" ]]; then
+restore_backup() {
+  DECK_STARTUP_FILE="/home/deck/.steam/steam/steamui/movies/deck_startup.webm"
+  DECK_STARTUP_STOCK_MD5="4ee82f478313cf74010fc22501b40729"
+
+  if [[ -f "$DECK_STARTUP_FILE.backup" ]]; then
     checksum="$(md5sum "$DECK_STARTUP_FILE" | cut -d ' ' -f 1)"
     if [[ "$checksum" != "$DECK_STARTUP_STOCK_MD5" ]]; then
-      msg2 "deck_startup.webm has already been modified, cannot make a backup"
-    else
-      msg "Creating backup of initial deck_startup.webm ($checksum)"
-      cp "$DECK_STARTUP_FILE" "$DECK_STARTUP_FILE.backup"
+      rm "$DECK_STARTUP_FILE"
+      mv "$DECK_STARTUP_FILE.backup" "$DECK_STARTUP_FILE"
     fi
+
+    rm "$DECK_STARTUP_FILE.backup"
   fi
 }
 
 list_animations() {
-  find . -type f -size "${DECK_STARTUP_FILE_SIZE}c" -iname '*.webm' -print0
+  find deck_startup/ -type f -iname '*.webm' -print0
 }
 
 random_animation() {
@@ -47,17 +48,10 @@ random_animation() {
   echo "${animations[$RANDOM % ${#animations[@]}]}"
 }
 
-replace_css_video() {
-  # NEW_CSS MUST be exactly the same length as OLD_CSS
-  OLD_CSS="video{flex-grow:0;width:300px;height:300px;z-index:10}"
-  NEW_CSS="video{flex-grow:1;width:100%;height:100%;z-index:10}  "
-  sed -i.bak -e "s/$OLD_CSS/$NEW_CSS/" $DECK_LIBRARY_CSS_FILE
-  truncate --size=$DECK_LIBRARY_CSS_FILE_SIZE $DECK_LIBRARY_CSS_FILE
-}
+restore_backup
 
-check_backup
-replace_css_video
 animation="$(random_animation)"
 msg "Using $animation"
-ln -f "$animation" "$DECK_STARTUP_FILE"
+mkdir -p "${DECK_UIOVERRIDES_MOVIES}"
+ln -f "$animation" "$DECK_UIOVERRIDES_STARTUP"
 

@@ -12,6 +12,10 @@ if [[ -f "$HOME/.steam/steam/steamui/movies/deck_startup.webm.backup" ]]; then
   mv "$HOME/.steam/steam/steamui/movies/deck_startup.webm.backup" "$HOME/.steam/steam/steamui/movies/deck_startup.webm"
 fi
 
+if [[ -L "$HOME/.steam/root/config/uioverrides/movies/deck_startup.webm" ]]; then
+  rm "$HOME/.steam/root/config/uioverrides/movies/deck_startup.webm"
+fi
+
 if [[ -e "$HOME/homebrew/startup_animations" ]]; then
   echo ":: Deleting the startup_animations directory"
   rm -rf "$HOME/homebrew/startup_animations"
